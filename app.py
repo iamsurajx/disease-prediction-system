@@ -53,7 +53,7 @@ st.markdown("""
 
 
 # getting the working directory of the main.py
-working_dir = os.path.dirname(os.path.abspath(_file_))
+working_dir = os.path.dirname(os.path.abspath(__file__))
 
 # loading the saved models
 
