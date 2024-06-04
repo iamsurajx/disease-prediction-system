@@ -434,7 +434,174 @@ if selected == 'Heart Disease Prediction':
 
 
  
- #parkinsons 
+#  #parkinsons 
+# import streamlit as st
+
+# # Define the function to validate and convert input values
+# def validate_and_convert(value, datatype, options=None):
+#     if datatype == 'int':
+#         try:
+#             return int(value)
+#         except ValueError:
+#             return None
+#     elif datatype == 'float':
+#         try:
+#             return float(value)
+#         except ValueError:
+#             return None
+#     return None
+
+# # Define encoding functions for categorical variables
+# def encode_gender(gender):
+#     return 0 if gender == 'Male' else 1 if gender == 'Female' else None
+
+# def encode_binary(value):
+#     return 0 if value == 'Yes' else 1 if value == 'No' else None
+
+# def encode_n_motor_i(value):
+#     mapping = {
+#         "Please select type": None,
+#         "REM sleep behavior disorder": 1,
+#         "Cognitive decline": 2,
+#     }
+#     return mapping.get(value, None)
+
+# def encode_shimmer(value):
+#     mapping = {
+#         "Please select type": None,
+#         "Shimmer (dB)": 1,
+#         "Shimmer (APQ3)": 2,
+#         "Shimmer (APQ5)": 3,
+#         "Shimmer (APQ11)": 4,
+#     }
+#     return mapping.get(value, None)
+
+# def validate_and_convert(value, data_type, min_value=None, max_value=None):
+#     try:
+#         if data_type == 'int':
+#             value = int(value)
+#         elif data_type == 'float':
+#             value = float(value)
+#         else:
+#             return value
+
+#         if min_value is not None and value < min_value:
+#             st.warning(f"Value should not be less than the range.")
+#             return None
+#         if max_value is not None and value > max_value:
+#             st.warning(f"Value should not be greater than the range.")
+#             return None
+#         return value
+#     except ValueError:
+#         st.warning(f"Invalid input. Please enter a valid value range.")
+#         return None 
+
+
+# # Main function for Parkinson's prediction app
+# if selected == 'Parkinsons Prediction':
+#     #selected =='Parkinsons Prediction'
+#     st.title('Parkinsons Disease Prediction using ML')
+
+#     # Input fields
+#     col1, col2, col3 = st.columns(3)
+    
+#     with col1:
+#         PatientId = st.text_input('Patient Id', placeholder='Enter Patient Id')
+
+#     with col2:
+#         age = st.text_input('Age', placeholder='Enter Age of Patient')
+
+#     with col3:
+#         Gender = st.selectbox('Gender', options=['Please Select', 'Male', 'Female'])
+    
+#     with col1:
+#         fh = st.selectbox('Family history', options=['Please Select', 'Yes', 'No'])
+    
+#     with col2:
+#         tremors = st.selectbox('Tremors', options=['Please Select', 'Yes', 'No'])
+    
+#     with col3:
+#         bk = st.selectbox('Bradykinesia', options=['Please Select', 'Yes', 'No'])
+
+#     with col1:
+#         mr = st.selectbox('Muscle rigidity', options=['Please Select', 'Yes', 'No'])
+    
+#     with col2:
+#         mh = st.selectbox('Medical history', options=['Please Select', 'Yes', 'No'])
+
+#     with col3:
+#         N_motor_i = st.selectbox('Postural instability type', options=['Please select type', 'REM sleep behavior disorder', 'Cognitive decline'])
+
+#     with col1:
+#         UPDRS_score = st.text_input('Unified Parkinsons Disease Rating Scale score', placeholder='Enter UPDRS Score value 0-199')
+
+#     with col2:
+#         Jitter_percent = st.text_input('Enter jitter Value', placeholder='Enter jitter value 0.1-5(%) ')
+
+#     with col3:
+#         Smoking_status = st.selectbox('Smoking status', options=['Please Select', 'Yes', 'No'])
+
+#     with col1:
+#         shimmer_value = st.text_input('Shimmer', placeholder='Enter Shimmer Percent value 0-10(%)')
+
+#     with col2:
+#         shimmer_type = st.selectbox('Type of Shimmer', options=['Please select type', 'Shimmer (dB)', 'Shimmer (APQ3)', 'Shimmer (APQ5)', 'Shimmer (APQ11)'])
+
+#     with col3:
+#         NHR = st.text_input('Noise-to-harmonics ratio', placeholder='Enter NHR value range 0-2(radio)')
+
+#     with col1:
+#         HNR = st.text_input('Harmonic-to-Noise Ratio', placeholder='Enter Harmonic-to-Noise Ratio value 0-5(dB)')
+
+#     # Code for prediction
+#     parkinsons_diagnosis = ''
+
+#     # Check if button is clicked
+#     if st.button('Check your Parkinsons Disease Here', key='Parkinsons_test_result'):
+#         # Convert inputs to appropriate types
+#         inputs = [
+#             validate_and_convert(PatientId, 'int', min_value=1, max_value=5000),
+#             validate_and_convert(age, 'int', min_value=0, max_value=100),
+#             encode_gender(Gender),
+#             encode_binary(fh),
+#             encode_binary(tremors),
+#             encode_binary(bk),
+#             encode_binary(mr),
+#             encode_binary(mh),
+#             encode_n_motor_i(N_motor_i),
+#             validate_and_convert(UPDRS_score, 'int', min_value=0, max_value=199),
+#             validate_and_convert(Jitter_percent, 'float', min_value=0.1, max_value=2),  # Convert to float
+#             encode_binary(Smoking_status),
+#             validate_and_convert(shimmer_value, 'float', min_value=0.1, max_value=5),  
+#             encode_shimmer(shimmer_type),
+#             validate_and_convert(NHR, 'float', min_value=0, max_value=5),  
+#             validate_and_convert(HNR, 'float', min_value=0, max_value=50), 
+#         ]
+
+#         # Check if all inputs are valid
+#         if None not in inputs:
+#             try:
+#                 # Ensure inputs match the model's expectations
+#                 if len(inputs) == 16:  # Ensure correct number of inputs
+#                     # Make prediction using parkinsons_model (assuming it's loaded)
+#                     parkinsons_prediction = parkinsons_model.predict([inputs])
+
+#                     if parkinsons_prediction[0] == 1:
+#                         parkinsons_diagnosis = 'Sorry you are Parkinsons disease please consult doctor'
+#                     else:
+#                         parkinsons_diagnosis = 'Congratulation you are not Parkinsons disease'
+#                 else:
+#                     parkinsons_diagnosis = 'The input features do not match the model expectations.'
+#             except Exception as e:
+#                 parkinsons_diagnosis = f'An error occurred during prediction: {e}'
+#                 st.error(parkinsons_diagnosis)
+#         else:
+#             parkinsons_diagnosis = 'Please enter valid values for all fields.'
+#             st.error(parkinsons_diagnosis)
+
+#         # Display the diagnosis message
+#         st.success(parkinsons_diagnosis)
+#parkinsons 
 import streamlit as st
 
 # Define the function to validate and convert input values
@@ -601,7 +768,6 @@ if selected == 'Parkinsons Prediction':
 
         # Display the diagnosis message
         st.success(parkinsons_diagnosis)
-
 
 # #Cancer Disease
 
