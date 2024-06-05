@@ -497,6 +497,7 @@ def validate_and_convert(value, data_type, min_value=None, max_value=None):
 
 # Main function for Parkinson's prediction app
 if selected == 'Parkinsons Prediction':
+    #selected =='Parkinsons Prediction'
     st.title('Parkinsons Disease Prediction using ML')
 
     # Input fields
@@ -557,8 +558,8 @@ if selected == 'Parkinsons Prediction':
     if st.button('Check your Parkinsons Disease Here', key='Parkinsons_test_result'):
         # Convert inputs to appropriate types
         inputs = [
-            validate_and_convert(PatientId, 'int'),
-            validate_and_convert(age, 'int'),
+            validate_and_convert(PatientId, 'int', min_value=1, max_value=5000),
+            validate_and_convert(age, 'int', min_value=0, max_value=100),
             encode_gender(Gender),
             encode_binary(fh),
             encode_binary(tremors),
@@ -566,13 +567,13 @@ if selected == 'Parkinsons Prediction':
             encode_binary(mr),
             encode_binary(mh),
             encode_n_motor_i(N_motor_i),
-            validate_and_convert(UPDRS_score, 'int'),
-            validate_and_convert(Jitter_percent, 'float'),  # Convert to float
+            validate_and_convert(UPDRS_score, 'int', min_value=0, max_value=199),
+            validate_and_convert(Jitter_percent, 'float', min_value=0.1, max_value=2),  # Convert to float
             encode_binary(Smoking_status),
-            validate_and_convert(shimmer_value, 'float'),  
+            validate_and_convert(shimmer_value, 'float', min_value=0.1, max_value=5),  
             encode_shimmer(shimmer_type),
-            validate_and_convert(NHR, 'float'),  
-            validate_and_convert(HNR, 'float'), 
+            validate_and_convert(NHR, 'float', min_value=0, max_value=5),  
+            validate_and_convert(HNR, 'float', min_value=0, max_value=50), 
         ]
 
         # Check if all inputs are valid
